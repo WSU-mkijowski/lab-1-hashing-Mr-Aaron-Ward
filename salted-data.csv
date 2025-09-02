@@ -1,0 +1,22 @@
+#!/bin/bash
+
+in="quiz_data.csv"
+out="salted-data.csv"
+
+> "$out" #clear output file
+
+while IFS=, read -r name rest; do
+  if [[ "$name" == "FLastName" ]]; then
+    echo "$name,$rest" >> "$out"
+    continue
+  fi
+
+  #make a random 5 digit salt
+  salt=$((10000 + RANDOM % 90000))
+
+  #create the hasj
+  hash=$(printf "%s%s" "$salt" "$name" | sha256sum | awk '{print $1}')
+
+  #replace first column with salt+hash
+  echo "$salt$hash,$rest" >> "$out"
+done < "$in"
