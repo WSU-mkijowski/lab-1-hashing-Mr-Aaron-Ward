@@ -41,32 +41,39 @@ Answer the following in this file:
 5. `echo "salt$hash"`, to print the salted hash
 
 
----
-
 ### Task 2: Crypto Mining
 
 **Reminder Deliverable:** Is your "mining" code in this repository (`mining/`)?
 **Reminder Deliverable:** Is your nonce + word combos in `coins.txt`?
 
-Answer the following:
-
-* Paste your ***nonce+word(s) and hash(s)*** below ( either 3x `000` hashes or 1x `0000`
-hash)
-
 ```
-
+  00083913eafecef118543ef2df621fbd4c54a351f96086cd4718099cd0f6dce0, 399these
+  000ac13d8480c8644dbb50d329cfa8918be92a6b37951a36b6665dcb95713c92, 1792are
+  000b0ef440ce731f76fcae2d6a99ac3a8d8bcf38d961bed15d225ea9148a75d4, 3517are
 ```
 
 * How many words were in your dictionary?
+  * 14
+
 * How many nonces did your code iterate over?
+  * 5000
+
 * What was the maximum number of hashes your code *could* compute given the above?
+  * 70000
+
 * What did you think about Task 2?
+  * It was not as bad a task 1, mainly because of the hint given in class. On a serious note it was interesting
+  seeing how bitcoin mining is done. I never understood bitcoin mining until now. 
+
 * Is there a better way than brute force to attempt to get higher valued coins?
+  * I don't think so
+
 * Why or why not?
+  * Brute force always seems to be the best way to go about things if you really want something done. 
 
+### My one liner is what's in miner.sh, its messy but it is a one liner
 
-```bash
-please put any cool bash one-liners or other piped commands you
-learned/struggled with for task 2 here
+```
+for j in $(cat ..data/dictionary); do for i in $(seq 5000); do string="$i$j"; hashval=$(printf "%s" "$string" | sha256sum | awk '{print $1}'); echo "$hashval, $string"; done; done | grep '^000'
 ```
 
